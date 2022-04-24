@@ -1,6 +1,10 @@
 import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import moonImg from "./moon.jpeg"
+import selfieImg from "./selfie.jpg"
+import spaceImg from "./space_img.webp"
+import bumpsImg from "./bumps.jpeg"
 
 //container that holds all your cameras and lights
 const scene = new THREE.Scene();
@@ -82,14 +86,14 @@ function addStar() {
 //create an array of a predetermined size and then fill with a new star
 Array(200).fill().forEach(addStar);
 
-const spaceTexture = new THREE.TextureLoader().load("./space_img.webp");
+const spaceTexture = new THREE.TextureLoader().load(spaceImg);
 
 //gets added to the scene to be viewed
 scene.add(pointLight, ambientLight, torus, lightHelper, gridHelper);
 scene.background = spaceTexture;
 
 //Avatar using texture mapping
-const julianTexture = new THREE.TextureLoader().load("./selfie.jpg");
+const julianTexture = new THREE.TextureLoader().load(selfieImg);
 const julian = new THREE.Mesh(
   new THREE.BoxGeometry(3, 3, 3),
   new THREE.MeshBasicMaterial({ map: julianTexture })
@@ -97,8 +101,8 @@ const julian = new THREE.Mesh(
 scene.add(julian);
 
 //sphere moon object mapped
-const moonTexture = new THREE.TextureLoader().load("./moon.jpeg");
-const moonBumps = new THREE.TextureLoader().load("./bumps.jpeg");
+const moonTexture = new THREE.TextureLoader().load(moonImg);
+const moonBumps = new THREE.TextureLoader().load(bumpsImg);
 const moon = new THREE.Mesh(
   new THREE.SphereGeometry(5, 24, 24),
   new THREE.MeshStandardMaterial({
