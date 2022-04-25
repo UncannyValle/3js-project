@@ -29,6 +29,8 @@ renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 //move the camera from the middle of the screen and into the z axis
+camera.position.setY(100);
+camera.position.setX(10);
 camera.position.setZ(30);
 
 // renderer.render(scene, camera);
@@ -37,7 +39,7 @@ camera.position.setZ(30);
 
 //Geometry are the XYZ points that make up a shape
 //these can be found in THREE.js docs
-const geometry = new THREE.TorusGeometry(10, 3, 16, 100);
+const geometry = new THREE.TorusGeometry(10, 3, 16, 80);
 //Material is the wrapping paper that goes around a 3d object
 //there are some built in ones within THREE.js that can be found in the docs
 //can also be built as shaders using WebGL
@@ -63,7 +65,7 @@ pointLight.position.set(15, 5, 5);
 const lightHelper = new THREE.PointLightHelper(pointLight);
 
 //a little helper that shows you a grid of the scene
-const gridHelper = new THREE.GridHelper(200, 10);
+//const gridHelper = new THREE.GridHelper(200, 10);
 
 //OrbitControls allows you to move the camera with your mouse, it takes in the camera and renderer.DOMelement as arguments and updates the camera to the mouse controls input
 const controls = new OrbitControls(camera, renderer.domElement);
@@ -88,16 +90,13 @@ Array(200).fill().forEach(addStar);
 
 const spaceTexture = new THREE.TextureLoader().load(spaceImg);
 
-//gets added to the scene to be viewed
-scene.add(pointLight, ambientLight, torus, lightHelper, gridHelper);
-scene.background = spaceTexture;
-
 //Avatar using texture mapping
 const julianTexture = new THREE.TextureLoader().load(selfieImg);
 const julian = new THREE.Mesh(
   new THREE.BoxGeometry(3, 3, 3),
   new THREE.MeshBasicMaterial({ map: julianTexture })
 );
+julian.position.set(0, 0, 0);
 scene.add(julian);
 
 //sphere moon object mapped
@@ -110,9 +109,13 @@ const moon = new THREE.Mesh(
     map: moonTexture,
   })
 );
-scene.add(moon);
-moon.position.setZ(30);
+moon.position.setY(10);
+moon.position.setZ(10);
 moon.position.setX(-10);
+
+//gets added to the scene to be viewed
+scene.add(pointLight, ambientLight, torus, lightHelper, moon);
+scene.background = spaceTexture;
 
 //this will make the camera move when scrolling down
 function moveCamera() {
@@ -123,12 +126,12 @@ function moveCamera() {
   moon.rotateY(0.075);
   moon.rotateZ(0.05);
   // julian.rotateX(0.005);
-  julian.rotateY(0.01);
+  julian.rotateY(0.1);
   julian.rotateZ(0.01);
 
   camera.position.z = positionTop * -0.01;
-  camera.position.y = positionTop * -0.0002;
-  camera.rotation.x = positionTop * -0.0002;
+  camera.position.y = positionTop * -0.002;
+  camera.rotation.x = positionTop * -0.002;
 }
 document.body.onscroll = moveCamera;
 
